@@ -21,5 +21,5 @@ class GumtreeSpider(scrapy.Spider):
             item['link'] = non_image_left.xpath('div[@class="ar-title"]/a/@href').extract()
             item['desc'] = non_image_left.xpath('div[@class="ar-descr"]/span/text()').extract()
             item['price'] = mid_element.xpath('div[@class="ar-price"]/strong/text()').extract()
-            item['added'] = right_element.xpath('div/div/div[@class="ar-date"]/ul/li[2]/text()').extract()
+            item['time_posted'] = right_element.xpath('div/div/div[@class="ar-date"]/ul/li[2]/text()').extract()
             yield item

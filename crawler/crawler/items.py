@@ -11,4 +11,4 @@ class CrawlerItem(scrapy.Item):
     link = scrapy.Field()
     desc = scrapy.Field()
     price = scrapy.Field()
-    added = scrapy.Field()
+    time_posted = scrapy.Field()

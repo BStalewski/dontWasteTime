@@ -21,4 +21,5 @@ ITEM_PIPELINES = {
     'crawler.pipelines.ListsToValuesPipeline': 20,
     'crawler.pipelines.PriceFormatPipeline': 30,
     'crawler.pipelines.PriceValidatorPipeline': 31,
+    'crawler.pipelines.DateFormatPipeline': 40,
 }
