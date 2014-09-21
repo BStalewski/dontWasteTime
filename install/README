@@ -1,0 +1,4 @@
+Installation procedure:
+1. Install vagrant.
+2. Go to install/vagrant directory.
+3. Run command 'vagrant up'.

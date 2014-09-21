@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/trusty64"
+  config.vm.network "forwarded_port", guest: 80, host: 5001
+  config.vm.network "forwarded_port", guest: 8080, host: 5002
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 2048
+  end
+
+  #config.vm.provision :shell, :path => "provision.sh"
+  #config.vm.provision :shell, :privileged => false
+  config.vm.provision :shell do |prov|
+    prov.path = "provision.sh"
+    prov.privileged = false
+  end
+end
