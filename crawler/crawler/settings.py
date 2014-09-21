@@ -22,4 +22,7 @@ ITEM_PIPELINES = {
     'crawler.pipelines.PriceFormatPipeline': 30,
     'crawler.pipelines.PriceValidatorPipeline': 31,
     'crawler.pipelines.DateFormatPipeline': 40,
+    'crawler.pipelines.DateValidatorPipeline': 41,
 }
+
+LOG_LEVEL = 'INFO'

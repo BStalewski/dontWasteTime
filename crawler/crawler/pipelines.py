@@ -9,6 +9,7 @@ import re
 
 from scrapy.exceptions import DropItem
 
+from crawler.exceptions import OldItemException
 from crawler.items import CrawlerItem
 
 
@@ -83,5 +84,14 @@ class DateFormatPipeline(object):
         else:
             day, month, year = [int(date_part) for date_part in no_whitespaces_crawl_date.split('/')]
             item['time_posted'] = datetime.datetime(year, month, day, tzinfo=timezone)
+
+        return item
+
+
+class DateValidatorPipeline(object):
+    def process_item(self, item, spider):
+        date_limit = spider.get_date_limit()
+        if item['time_posted'] < date_limit:
+            raise OldItemException('Reached too old item')
 
         return item
