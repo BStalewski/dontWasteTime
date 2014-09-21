@@ -11,6 +11,7 @@ from scrapy.exceptions import DropItem
 
 from crawler.exceptions import OldItemException
 from crawler.items import CrawlerItem
+from crawler import settings
 
 
 class PaidLinksFilterPipeline(object):
@@ -93,5 +94,24 @@ class DateValidatorPipeline(object):
         date_limit = spider.get_date_limit()
         if item['time_posted'] < date_limit:
             raise OldItemException('Reached too old item')
+
+        return item
+
+
+class DescriptionValidatorPipeline(object):
+    elements = [
+        (u'.*\d+m2', 1), (u'.*wolnostojący', 2), (u'.*murowany', 2), (u'.*światło', 3),
+        (u'.*prąd', 3), (u'.*elektryczna', 3), (u'.*gniazdko', 3),
+
+        (u'.*apartamen', -1), (u'.*podziemny', -1), (u'.*parking', -2), (u'.*miejsce postojowe', -3),
+        (u'.*miejsce garażowe', -3), (u'.*przezim', -3), (u'.*w garażu podziemnym', -3),
+    ]
+
+    def process_item(self, item, spider):
+        desc = item['desc']
+        matching_elements_ranks = [rank for (regex, rank) in self.elements if re.match(regex, desc, re.IGNORECASE)]
+        ranking = sum(matching_elements_ranks)
+        if ranking < settings.MIN_DESCRIPTION_RANKING:
+            raise DropItem('Item not interesting')
 
         return item

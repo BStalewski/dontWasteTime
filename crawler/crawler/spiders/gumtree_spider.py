@@ -61,7 +61,7 @@ class GumtreeSpider(scrapy.Spider):
         #TODO: get this from DB
         timezone = pytz.timezone('Europe/Warsaw')
         now = datetime.datetime.now(timezone)
-        self.date_limit = now - datetime.timedelta(hours=9)
+        self.date_limit = now - datetime.timedelta(hours=72)
 
     def get_date_limit(self):
         return self.date_limit
