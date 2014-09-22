@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+PROJECTS_DIR=~/projects
+DJANGO_DIR="${PROJECTS_DIR}/dontWasteTime/webapp/crawler"
+
+
 echo "Start provisioning"
 
 cp /vagrant/bashrc /home/vagrant/.bashrc
@@ -15,19 +19,23 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 mkvirtualenv dontWasteTime
 
-pip install scrapy ipython
+pip install scrapy ipython pytz django
 
-if [ ! -d ~/projects/ ]; then
-    mkdir ~/projects
+if [ ! -d $PROJECTS_DIR ]; then
+    mkdir $PROJECTS_DIR
 fi
 
-cd ~/projects
+cd $PROJECTS_DIR
 
-if [ ! -d ~/projects/dontWasteTime ]; then
+if [ ! -d "${PROJECTS_DIR}/dontWasteTime" ]; then
     git clone https://github.com/BStalewski/dontWasteTime.git
 else
     cd dontWasteTime
     git pull
 fi
+
+#cd $DJANGO_DIR
+#./manage.py migrate
+
 
 echo "Provisioning ended successfully"
