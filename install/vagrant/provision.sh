@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECTS_DIR=~/projects
-DJANGO_DIR="${PROJECTS_DIR}/dontWasteTime/webapp/crawler"
+DJANGO_DIR="${PROJECTS_DIR}/dontWasteTime/webapp/crawler_app"
 
 
 echo "Start provisioning"
@@ -34,8 +34,8 @@ else
     git pull
 fi
 
-#cd $DJANGO_DIR
-#./manage.py migrate
+cd $DJANGO_DIR
+./manage.py migrate
 
 
 echo "Provisioning ended successfully"

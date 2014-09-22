@@ -1,14 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# See documentation in:
-# http://doc.scrapy.org/en/latest/topics/items.html
-
-import scrapy
+from scrapy.contrib.djangoitem import DjangoItem
+from results.models import CrawlerResult
 
 
-class CrawlerItem(scrapy.Item):
-    title = scrapy.Field()
-    link = scrapy.Field()
-    desc = scrapy.Field()
-    price = scrapy.Field()
-    time_posted = scrapy.Field()
+class CrawlerItem(DjangoItem):
+    django_model = CrawlerResult

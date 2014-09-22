@@ -1,5 +1,5 @@
 """
-Django settings for crawler project.
+Django settings for crawler_app project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -50,9 +50,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'crawler.urls'
+ROOT_URLCONF = 'crawler_app.urls'
 
-WSGI_APPLICATION = 'crawler.wsgi.application'
+WSGI_APPLICATION = 'crawler_app.wsgi.application'
 
 
 # Database

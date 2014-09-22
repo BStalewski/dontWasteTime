@@ -115,3 +115,9 @@ class DescriptionValidatorPipeline(object):
             raise DropItem('Item not interesting')
 
         return item
+
+
+class DBPipeline(object):
+    def process_item(self, item, spider):
+        item.save()
+        return item

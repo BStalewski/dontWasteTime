@@ -24,9 +24,17 @@ ITEM_PIPELINES = {
     'crawler.pipelines.DateFormatPipeline': 40,
     'crawler.pipelines.DateValidatorPipeline': 41,
     'crawler.pipelines.DescriptionValidatorPipeline': 50,
+    'crawler.pipelines.DBPipeline': 1000,
 }
 
 LOG_LEVEL = 'INFO'
 
 
 MIN_DESCRIPTION_RANKING = -3
+
+
+import sys
+sys.path.append('/home/bartek/projects/dontWasteTime/webapp/crawler_app')
+
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'crawler_app.settings'
