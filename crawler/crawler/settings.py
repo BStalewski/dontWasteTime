@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for crawler project
-#
-# For simplicity, this file contains only the most important settings by
-# default. All the other settings are documented here:
-#
-#     http://doc.scrapy.org/en/latest/topics/settings.html
-#
+import os.path
+import sys
+
+from os.path import abspath, dirname, join
 
 BOT_NAME = 'crawler'
 
@@ -33,8 +30,8 @@ LOG_LEVEL = 'INFO'
 MIN_DESCRIPTION_RANKING = -3
 
 
-import sys
-sys.path.append('/home/bartek/projects/dontWasteTime/webapp/crawler_app')
+ROOT_PROJECT_DIR = dirname(dirname(dirname(abspath(__file__))))
+DJANGO_DIR = join(ROOT_PROJECT_DIR, 'webapp', 'crawler_app')
 
-import os
+sys.path.append(DJANGO_DIR)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'crawler_app.settings'
