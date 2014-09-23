@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 
-from results.models import CrawlerResult
+from crawling.models import CrawlerResult
 
 
 class CrawlerResultList(ListView):

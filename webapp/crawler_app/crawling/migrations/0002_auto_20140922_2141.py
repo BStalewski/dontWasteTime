@@ -7,12 +7,12 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('results', '0002_auto_20140922_2141'),
+        ('crawling', '0001_initial'),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='CrawlerItem',
-            new_name='CrawlerResult',
+            old_name='CrawlItem',
+            new_name='CrawlerItem',
         ),
     ]

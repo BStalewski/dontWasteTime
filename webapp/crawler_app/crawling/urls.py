@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from results.views import CrawlerResultList
+from crawling.views import CrawlerResultList
 
 urlpatterns = patterns(
     '',
