@@ -1,0 +1,23 @@
+<h2>Wyniki crawlingu</h2>
+
+<table>
+
+    <tr>
+        <th>Tytuł</th>
+        <th>Opis</th>
+        <th>Cena</th>
+        <th>Czas zgłoszenia</th>
+        <th>Link</th>
+    </tr>
+
+{% for result in object_list %}
+    <tr>
+        <td>{{ result.title }}</td>
+        <td>{{ result.desc }}</td>
+        <td>{{ result.price }}</td>
+        <td>{{ result.time_posted }}</td>
+        <td>{{ result.link }}</td>
+    </tr>
+{% endfor %}
+
+</table>

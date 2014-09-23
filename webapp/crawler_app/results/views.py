@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from results.models import CrawlerResult
+
+
+class CrawlerResultList(ListView):
+    model = CrawlerResult
