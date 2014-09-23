@@ -1,3 +1,5 @@
+{% load humanize %}
+
 <h2>Wyniki crawlingu</h2>
 
 <table>
@@ -15,7 +17,7 @@
         <td>{{ result.title }}</td>
         <td>{{ result.desc }}</td>
         <td>{{ result.price }}</td>
-        <td>{{ result.time_posted }}</td>
+        <td>{{ result.time_posted|naturaltime }}</td>
         <td>{{ result.link }}</td>
     </tr>
 {% endfor %}
