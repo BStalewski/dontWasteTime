@@ -12,8 +12,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     vb.memory = 2048
   end
 
-  #config.vm.provision :shell, :path => "provision.sh"
-  #config.vm.provision :shell, :privileged => false
   config.vm.provision :shell do |prov|
     prov.path = "provision.sh"
     prov.privileged = false

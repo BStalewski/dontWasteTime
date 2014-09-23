@@ -12,6 +12,7 @@ source ~/.bashrc
 sudo apt-get update
 sudo apt-get install -y python-pip python-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev
 sudo apt-get install -y git
+sudo apt-get install -y postgresql postgresql-contrib pgadmin3
 sudo pip install virtualenv virtualenvwrapper
 
 export WORKON_HOME=~/Envs
