@@ -8,9 +8,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-import os
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+from os.path import dirname, join
+
+BASE_DIR = dirname(dirname(__file__))
+ROOT_PROJECT_DIR = dirname(dirname(BASE_DIR))
+SCRAPY_DIR = join(ROOT_PROJECT_DIR, 'crawler')
 
 
 # Quick-start development settings - unsuitable for production
@@ -62,7 +64,7 @@ WSGI_APPLICATION = 'crawler_app.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -86,5 +88,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
+    join(BASE_DIR, 'templates'),
 )

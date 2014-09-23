@@ -1,11 +1,10 @@
 from django.conf.urls import patterns, url
 
-from crawling.views import CrawlerResultList
+from crawling.views import CrawlerResultList, new_crawling
 
 urlpatterns = patterns(
     '',
-    # Examples:
-    # url(r'^$', 'crawler_app.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-    url(r'^$', CrawlerResultList.as_view()),
+
+    url(r'^results$', CrawlerResultList.as_view()),
+    url(r'^new$', new_crawling),
 )
