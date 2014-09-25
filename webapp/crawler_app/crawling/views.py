@@ -11,6 +11,7 @@ from crawling.models import CrawlerResult
 class CrawlerResultList(ListView):
     model = CrawlerResult
     template_name = 'crawling/crawlerresult_list.html'
+    queryset = CrawlerResult.objects.all().order_by('-time_posted')
 
 
 def new_crawling(request):
