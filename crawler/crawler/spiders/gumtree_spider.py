@@ -4,10 +4,12 @@ import datetime
 import pytz
 import scrapy
 
+from scrapy.exceptions import CloseSpider
 from scrapy.http import Request
 from scrapy.xlib.pydispatch import dispatcher
 
-from scrapy.exceptions import CloseSpider
+from crawler import settings
+
 from crawler.exceptions import OldItemException
 from crawler.items import CrawlerItem
 
@@ -54,14 +56,18 @@ class GumtreeSpider(scrapy.Spider):
             else:
                 if link_text.startswith(u'Następne'):
                     url = items_page_link.xpath('@href').extract()[0]
-                    print 'NEW URL:', url
                     yield Request(url, callback=self.parse)
 
     def _set_date_limit(self):
-        #TODO: get this from DB
-        timezone = pytz.timezone('Europe/Warsaw')
-        now = datetime.datetime.now(timezone)
-        self.date_limit = now - datetime.timedelta(hours=72)
+        try:
+            newest_item = CrawlerItem.django_model.objects.order_by('-time_posted')[0]
+            self.date_limit = newest_item.time_posted - datetime.timedelta(minutes=settings.CRAWLING_MINUTE_MARGIN)
+        except IndexError:
+            timezone = pytz.timezone(settings.TIMEZONE)
+            now = datetime.datetime.now(timezone)
+            self.date_limit = now - datetime.timedelta(hours=settings.DEFAULT_RESULT_HOURS_LIMIT)
+
+        print 'New crawling will start for items laster than %s' % self.date_limit
 
     def get_date_limit(self):
         return self.date_limit

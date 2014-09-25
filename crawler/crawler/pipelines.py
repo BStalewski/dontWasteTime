@@ -1,23 +1,18 @@
 # -*- coding: utf-8 -*-
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: http://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import datetime
 import pytz
 import re
 
-from scrapy.exceptions import DropItem
-
-from crawler.exceptions import OldItemException
-from crawler.items import CrawlerItem
+import crawler.exceptions as exc
+from crawler.items import CrawlerItem, CrawlerResult
 from crawler import settings
 
 
 class PaidLinksFilterPipeline(object):
     def process_item(self, item, spider):
         if not item['time_posted'] or not item['price']:
-            raise DropItem('PaidLinksFilterPipeline: paid link found with title: %s' % item['title'])
+            raise exc.PaidLinkException('Paid link found with title: %s' % item['title'])
         else:
             return item
 
@@ -27,8 +22,8 @@ class ListsToValuesPipeline(object):
         cleaned_item = CrawlerItem()
         for key in item.keys():
             if len(item[key]) != 1:
-                raise DropItem('ListsToValuesPipeline: field %s with %d elements in item with title: %s' %
-                               (key, len(item[key]), item['title']))
+                raise exc.IncorrectFormatException('Field %s with %d elements in item with title: %s' %
+                                                   (key, len(item[key]), item['title']))
             cleaned_item[key] = item[key][0]
 
         return cleaned_item
@@ -38,8 +33,8 @@ class PriceFormatPipeline(object):
     def process_item(self, item, spider):
         prices = re.findall('(\d+)', item['price'])
         if len(prices) != 1:
-            raise DropItem('PricePipeline: %d occurences of price (price string %s) for item with title: %s' %
-                           (len(prices), item['price'], item['title']))
+            raise exc.IncorrectPriceException('%d occurences of price (price string %s) for item with title: %s' %
+                                              (len(prices), item['price'], item['title']))
 
         item['price'] = prices[0]
         return item
@@ -51,11 +46,11 @@ class PriceValidatorPipeline(object):
         try:
             item['price'] = int(price)
         except ValueError:
-            raise DropItem('PriceValidatorPipeline: non-integer price %d for item with title: %s' %
-                           (price, item['title']))
+            raise exc.InvalidPriceException('non-integer price %d for item with title: %s' %
+                                            (price, item['title']))
 
         if item['price'] == 0:
-            raise DropItem('PriceValidatorPipeline: 0 price for item with title: %s' % item['title'])
+            raise exc.InvalidPriceException('0 price for item with title: %s' % item['title'])
 
         return item
 
@@ -93,7 +88,7 @@ class DateValidatorPipeline(object):
     def process_item(self, item, spider):
         date_limit = spider.get_date_limit()
         if item['time_posted'] < date_limit:
-            raise OldItemException('Reached too old item')
+            raise exc.OldItemException('Reached too old item')
 
         return item
 
@@ -112,7 +107,15 @@ class DescriptionValidatorPipeline(object):
         matching_elements_ranks = [rank for (regex, rank) in self.elements if re.match(regex, desc, re.IGNORECASE)]
         ranking = sum(matching_elements_ranks)
         if ranking < settings.MIN_DESCRIPTION_RANKING:
-            raise DropItem('Item not interesting')
+            raise exc.NotinterestingItemException('Item not interesting')
+
+        return item
+
+
+class LinkUniquenessValidatorPipeline(object):
+    def process_item(self, item, spider):
+        if CrawlerResult.objects.filter(link=item['link']).exists():
+            raise exc.AlreadyCrawledException('Item already crawled')
 
         return item
 

@@ -21,6 +21,7 @@ ITEM_PIPELINES = {
     'crawler.pipelines.DateFormatPipeline': 40,
     'crawler.pipelines.DateValidatorPipeline': 41,
     'crawler.pipelines.DescriptionValidatorPipeline': 50,
+    'crawler.pipelines.LinkUniquenessValidatorPipeline': 60,
     'crawler.pipelines.DBPipeline': 1000,
 }
 
@@ -28,6 +29,10 @@ LOG_LEVEL = 'INFO'
 
 
 MIN_DESCRIPTION_RANKING = -3
+DEFAULT_RESULT_HOURS_LIMIT = 72
+CRAWLING_MINUTE_MARGIN = 560
+
+TIMEZONE = 'Europe/Warsaw'
 
 
 ROOT_PROJECT_DIR = dirname(dirname(dirname(abspath(__file__))))
@@ -35,3 +40,7 @@ DJANGO_DIR = join(ROOT_PROJECT_DIR, 'webapp', 'crawler_app')
 
 sys.path.append(DJANGO_DIR)
 os.environ['DJANGO_SETTINGS_MODULE'] = 'crawler_app.settings'
+
+# it is needed to be able to use operations (e.g. filtering) on django models
+import django
+django.setup()
