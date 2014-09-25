@@ -3,9 +3,9 @@
 # Stop on the first error and unset variables are errors
 set -eu
 
-HOST_RESOURCES_DIR="resources"
+HOST_RESOURCES_DIR=resources
 PROJECTS_DIR=~/projects
-DJANGO_DIR="${PROJECTS_DIR}/dontWasteTime/webapp/crawler_app"
+DJANGO_DIR=${PROJECTS_DIR}/dontWasteTime/webapp/crawler_app
 
 
 echo "Start provisioning"
