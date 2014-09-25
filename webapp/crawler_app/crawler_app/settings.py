@@ -67,7 +67,7 @@ DATABASES = {
         'NAME': 'crawlerdb',
         'USER': 'crawleruser',
         'PASSWORD': 'crawl_lova',
-        'HOST': '192.168.51.122',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
