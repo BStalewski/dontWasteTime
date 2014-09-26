@@ -59,6 +59,10 @@ class DateFormatPipeline(object):
     def process_item(self, item, spider):
         if spider.name == 'gumtree':
             processed_item = self.process_gumtree_item(item)
+        elif spider.name == 'otodom':
+            processed_item = self.process_otodom_item(item)
+        else:
+            raise exc.UnknownSpiderException('Unknown spider: %s' % spider.name)
 
         return processed_item
 
@@ -66,7 +70,7 @@ class DateFormatPipeline(object):
         crawl_date = item['time_posted']
         no_whitespaces_crawl_date = crawl_date.strip()
         recent_date_match = re.match(r'< (\d+) godz. temu|< (\d+) min temu', no_whitespaces_crawl_date)
-        timezone = pytz.timezone('Europe/Warsaw')
+        timezone = pytz.timezone(settings.TIMEZONE)
         if recent_date_match:
             if recent_date_match.group(1):
                 hours_alive = int(recent_date_match.group(1))
@@ -74,13 +78,23 @@ class DateFormatPipeline(object):
             else:
                 hours_alive = 0
                 minutes_alive = int(recent_date_match.group(2))
-            now = datetime.datetime.now(timezone)
-            time_posted = now - datetime.timedelta(hours=hours_alive, minutes=minutes_alive)
-            item['time_posted'] = time_posted
+            now = datetime.datetime.now()
+            naive_datetime = now - datetime.timedelta(hours=hours_alive, minutes=minutes_alive)
         else:
             day, month, year = [int(date_part) for date_part in no_whitespaces_crawl_date.split('/')]
-            item['time_posted'] = datetime.datetime(year, month, day, tzinfo=timezone)
+            naive_datetime = datetime.datetime(year, month, day)
 
+        local_datetime = timezone.localize(naive_datetime)
+        item['time_posted'] = local_datetime
+
+        return item
+
+    def process_otodom_item(self, item):
+        crawl_date = item['time_posted']
+        timezone = pytz.timezone(settings.TIMEZONE)
+        naive_datetime = datetime.datetime.strptime(crawl_date, '%d.%m.%Y')
+        local_datetime = timezone.localize(naive_datetime)
+        item['time_posted'] = local_datetime
         return item
 
 

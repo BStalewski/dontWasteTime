@@ -17,6 +17,10 @@ class InvalidPriceException(DropItem):
     pass
 
 
+class UnknownSpiderException(DropItem):
+    pass
+
+
 class OldItemException(DropItem):
     pass
 
