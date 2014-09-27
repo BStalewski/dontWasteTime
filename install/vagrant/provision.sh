@@ -30,6 +30,8 @@ sudo -u postgres psql -c "create database \"crawlerdb\" with owner \"crawleruser
 
 echo "3. RabbitMQ installation and set up"
 sudo apt-get install -y rabbitmq-server
+# ignore errors, because commands may return nonzeroes
+set +e
 VHOSTS_COUNT=$(sudo rabbitmqctl list_vhosts | grep -c /crawler_app)
 if [ $VHOSTS_COUNT -eq 0 ]; then
     sudo rabbitmqctl add_vhost /crawler_app
@@ -37,19 +39,20 @@ else
     echo "vhost /crawler_app currently exists"
 fi
 
-USERS_COUNT=$(sudo rabbitmqctl list_users | grep -c /crawler_user)
+USERS_COUNT=$(sudo rabbitmqctl list_users | grep -c crawler_user)
 if [ $USERS_COUNT -eq 0 ]; then
     sudo rabbitmqctl add_user crawler_user q6e56VH2eFXaE7D
 else
     echo "user crawler_user currently exists"
 fi
 
-PERMISSIONS_COUNT=$(sudo rabbitmqctl list_permissions -p /crawler_app | grep -c /crawler_user)
+PERMISSIONS_COUNT=$(sudo rabbitmqctl list_permissions -p /crawler_app | grep -c crawler_user)
 if [ $PERMISSIONS_COUNT -eq 0 ]; then
     sudo rabbitmqctl set_permissions -p /crawler_app crawler_user ".*" ".*" ".*"
 else
     echo "permissions for /crawler_app vhost already set"
 fi
+set -e
 
 echo "4. Git installation"
 sudo apt-get install -y git
