@@ -28,10 +28,33 @@ sudo service postgresql restart
 sudo -u postgres psql -c "create user \"crawleruser\" with password 'crawl_lova'" 2> /dev/null || true
 sudo -u postgres psql -c "create database \"crawlerdb\" with owner \"crawleruser\"" 2> /dev/null || true
 
-echo "3. Git installation"
+echo "3. RabbitMQ installation and set up"
+sudo apt-get install -y rabbitmq-server
+VHOSTS_COUNT=$(sudo rabbitmqctl list_vhosts | grep -c /crawler_app)
+if [ $VHOSTS_COUNT -eq 0 ]; then
+    sudo rabbitmqctl add_vhost /crawler_app
+else
+    echo "vhost /crawler_app currently exists"
+fi
+
+USERS_COUNT=$(sudo rabbitmqctl list_users | grep -c /crawler_user)
+if [ $USERS_COUNT -eq 0 ]; then
+    sudo rabbitmqctl add_user crawler_user q6e56VH2eFXaE7D
+else
+    echo "user crawler_user currently exists"
+fi
+
+PERMISSIONS_COUNT=$(sudo rabbitmqctl list_permissions -p /crawler_app | grep -c /crawler_user)
+if [ $PERMISSIONS_COUNT -eq 0 ]; then
+    sudo rabbitmqctl set_permissions -p /crawler_app crawler_user ".*" ".*" ".*"
+else
+    echo "permissions for /crawler_app vhost already set"
+fi
+
+echo "4. Git installation"
 sudo apt-get install -y git
 
-echo "4. Virtualenv installation"
+echo "5. Virtualenv installation"
 sudo pip install virtualenv virtualenvwrapper
 
 # virtualenvwrapper uses unbound variables
@@ -42,15 +65,15 @@ export WORKON_HOME=~/Envs
 source /usr/local/bin/virtualenvwrapper.sh
 set -u
 
-echo "5. Preparing virtual envrionment"
+echo "6. Preparing virtual envrionment"
 # virtualenvwrapper uses unbound variables
 set +eu
 mkvirtualenv dontWasteTime
 set -eu
-pip install scrapy ipython pytz django psycopg2
+pip install scrapy ipython pytz django psycopg2 celery
 
 
-echo "6. Clone project repository"
+echo "7. Clone project repository"
 if [ ! -d $PROJECTS_DIR ]; then
     mkdir $PROJECTS_DIR
 fi
@@ -64,7 +87,7 @@ else
     git pull
 fi
 
-echo "7. Set up webapp environment"
+echo "8. Set up webapp environment"
 cd $DJANGO_DIR
 ./manage.py migrate
 

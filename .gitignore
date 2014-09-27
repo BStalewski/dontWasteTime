@@ -59,5 +59,8 @@ target/
 # Vagrant
 .vagrant
 
-#SQLite
+# SQLite
 .sqlite3
+
+# celerybeat
+celerybeat-schedule

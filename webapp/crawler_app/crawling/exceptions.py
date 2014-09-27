@@ -1,0 +1,2 @@
+class UnknownCrawler(RuntimeError):
+    pass

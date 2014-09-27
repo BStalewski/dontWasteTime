@@ -1,11 +1,9 @@
-import os
-import subprocess
-
 from django.http import HttpResponse, Http404
 from django.views.generic import ListView
 
-from crawler_app.settings import SCRAPY_DIR, CRAWLERS
+from crawler_app.settings import CRAWLERS
 from crawling.models import CrawlerResult
+from crawling.tasks import update_crawled_results, update_crawled_results_for
 
 
 class CrawlerResultList(ListView):
@@ -14,8 +12,7 @@ class CrawlerResultList(ListView):
 
 
 def crawl_all_sources(request):
-    for crawler in CRAWLERS:
-        crawl_source(request, crawler)
+    update_crawled_results.delay()
 
     return HttpResponse('Done')
 
@@ -24,6 +21,6 @@ def crawl_source(request, source):
     if source not in CRAWLERS:
         raise Http404
 
-    os.chdir(SCRAPY_DIR)
-    subprocess.call(['scrapy', 'crawl', source])
+    update_crawled_results_for.delay(source)
+
     return HttpResponse('Done')

@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+from datetime import timedelta
 from os.path import dirname, join
 
 BASE_DIR = dirname(dirname(__file__))
@@ -99,3 +100,13 @@ CRAWLERS = [
     'gumtree',
     'otodom',
 ]
+
+# celery config
+BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_TIMEZONE = TIME_ZONE
+CELERYBEAT_SCHEDULE = {
+    'add-every-30-seconds': {
+        'task': 'crawling.tasks.update_crawled_results',
+        'schedule': timedelta(seconds=15),
+    },
+}
