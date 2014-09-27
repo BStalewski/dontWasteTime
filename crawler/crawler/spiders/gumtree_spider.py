@@ -61,7 +61,7 @@ class GumtreeSpider(scrapy.Spider):
 
     def _set_date_limit(self):
         try:
-            newest_item = CrawlerItem.django_model.objects.order_by('-time_posted')[0]
+            newest_item = CrawlerItem.django_model.objects.filter(source=self.name).order_by('-time_posted')[0]
             self.date_limit = newest_item.time_posted - datetime.timedelta(minutes=settings.CRAWLING_MINUTE_MARGIN)
         except IndexError:
             timezone = pytz.timezone(settings.TIMEZONE)

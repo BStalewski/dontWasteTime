@@ -94,3 +94,8 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     join(BASE_DIR, 'templates'),
 )
+
+CRAWLERS = [
+    'gumtree',
+    'otodom',
+]
