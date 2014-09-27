@@ -64,3 +64,4 @@ target/
 
 # celerybeat
 celerybeat-schedule
+celerybeat.pid
