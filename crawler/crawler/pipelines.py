@@ -126,6 +126,17 @@ class DescriptionValidatorPipeline(object):
         return item
 
 
+class LinkFormatPipeline(object):
+    def process_item(self, item, spider):
+        if item['link'].startswith('http://') or item['link'].startswith('www.'):
+            return item
+        else:
+            base_url = spider.allowed_domains[0].rstrip('/')
+            path = item['link'].lstrip('/')
+            item['link'] = '%s/%s' % (base_url, path)
+            return item
+
+
 class LinkUniquenessValidatorPipeline(object):
     def process_item(self, item, spider):
         if CrawlerResult.objects.filter(link=item['link']).exists():

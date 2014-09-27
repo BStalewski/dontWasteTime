@@ -46,6 +46,7 @@ class GumtreeSpider(scrapy.Spider):
             item['desc'] = non_image_left.xpath('div[@class="ar-descr"]/span/text()').extract()
             item['price'] = mid_element.xpath('div[@class="ar-price"]/strong/text()').extract()
             item['time_posted'] = right_element.xpath('div/div/div[@class="ar-date"]/ul/li[2]/text()').extract()
+            item['source'] = ['gumtree']
             yield item
 
         for items_page_link in response.xpath('//a[@class="prevNextLink"]'):

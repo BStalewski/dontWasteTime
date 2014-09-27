@@ -21,7 +21,8 @@ ITEM_PIPELINES = {
     'crawler.pipelines.DateFormatPipeline': 40,
     'crawler.pipelines.DateValidatorPipeline': 41,
     'crawler.pipelines.DescriptionValidatorPipeline': 50,
-    'crawler.pipelines.LinkUniquenessValidatorPipeline': 60,
+    'crawler.pipelines.LinkFormatPipeline': 60,
+    'crawler.pipelines.LinkUniquenessValidatorPipeline': 61,
     'crawler.pipelines.DBPipeline': 1000,
 }
 

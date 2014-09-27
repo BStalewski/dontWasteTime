@@ -7,3 +7,4 @@ class CrawlerResult(models.Model):
     desc = models.TextField()
     price = models.IntegerField()
     time_posted = models.DateTimeField()
+    source = models.CharField(max_length=50, default='')

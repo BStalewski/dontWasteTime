@@ -42,10 +42,10 @@ class OtodomSpider(scrapy.Spider):
             item = CrawlerItem()
             item['title'] = title_element.xpath('text()').extract()
             item['link'] = title_element.xpath('@href').extract()
-
             item['desc'] = data_element.xpath('a/p[@class="od-listing_item-summary"]/text()').extract()
             item['price'] = data_element.xpath('div[@class="od-listing_item-numbers"]/strong[@class="od-listing_item-price"]/text()').extract()
             item['time_posted'] = time_element.xpath('text()').extract()
+            item['source'] = ['otodom']
 
             yield item
 
