@@ -105,8 +105,8 @@ CRAWLERS = [
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_TIMEZONE = TIME_ZONE
 CELERYBEAT_SCHEDULE = {
-    'add-every-30-seconds': {
+    'update_crawled_results': {
         'task': 'crawling.tasks.update_crawled_results',
-        'schedule': timedelta(seconds=15),
+        'schedule': timedelta(seconds=300),
     },
 }
