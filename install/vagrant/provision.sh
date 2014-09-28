@@ -79,7 +79,7 @@ fi
 workon dontWasteTime
 set -eu
 
-pip install scrapy ipython pytz django psycopg2 celery
+pip install scrapy ipython pytz django psycopg2 celery gunicorn
 
 
 echo "7. Clone project repository"
