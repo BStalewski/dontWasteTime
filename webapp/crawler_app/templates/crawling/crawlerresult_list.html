@@ -1,25 +1,34 @@
 {% load humanize %}
 
-<h2>Wyniki crawlingu</h2>
+<head>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-<table>
+<body>
+    <h2>Wyniki crawlingu</h2>
 
-    <tr>
-        <th>Tytuł</th>
-        <th>Opis</th>
-        <th>Cena</th>
-        <th>Czas zgłoszenia</th>
-        <th>Link</th>
-    </tr>
+    <table class="table table-striped table-bordered table-hover">
 
-{% for result in object_list %}
-    <tr>
-        <td>{{ result.title }}</td>
-        <td>{{ result.desc }}</td>
-        <td>{{ result.price }}</td>
-        <td>{{ result.time_posted|naturaltime }}</td>
-        <td>{{ result.link }}</td>
-    </tr>
-{% endfor %}
+        <tr>
+            <th>Tytuł</th>
+            <th>Opis</th>
+            <th>Cena</th>
+            <th>Czas zgłoszenia</th>
+            <th>Link</th>
+        </tr>
 
-</table>
+    {% for result in object_list %}
+        <tr>
+            <td>{{ result.title }}</td>
+            <td>{{ result.desc }}</td>
+            <td>{{ result.price }}</td>
+            <td>{{ result.time_posted|naturaltime }}</td>
+            <td>{{ result.link }}</td>
+        </tr>
+    {% endfor %}
+
+    </table>
+
+    <script src="/static/js/jquery-1.11.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+</body>

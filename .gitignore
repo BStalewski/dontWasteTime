@@ -65,3 +65,6 @@ target/
 # celerybeat
 celerybeat-schedule
 celerybeat.pid
+
+# static files
+webapp/crawler_app/static/

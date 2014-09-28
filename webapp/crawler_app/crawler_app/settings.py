@@ -92,6 +92,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = join(BASE_DIR, 'static')
+
 TEMPLATE_DIRS = (
     join(BASE_DIR, 'templates'),
 )
@@ -102,7 +104,7 @@ CRAWLERS = [
 ]
 
 # celery config
-BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+BROKER_URL = 'amqp://crawler_user:q6e56VH2eFXaE7D@localhost:5672//crawler_app'
 CELERY_TIMEZONE = TIME_ZONE
 CELERYBEAT_SCHEDULE = {
     'update_crawled_results': {
