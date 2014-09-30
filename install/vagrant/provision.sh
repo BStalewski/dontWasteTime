@@ -99,6 +99,7 @@ fi
 echo "8. Set up webapp environment"
 cd $DJANGO_DIR
 ./manage.py migrate
+./manage.py collectstatic --noinput
 
 echo "9. Set up supervisor"
 sudo apt-get install -y supervisor
