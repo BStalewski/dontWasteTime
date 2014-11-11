@@ -110,7 +110,16 @@ cd $DJANGO_DIR
 ./manage.py migrate
 ./manage.py collectstatic --noinput
 
-echo "9. Set up supervisor"
+echo "9. Nginx installation and set up"
+sudo apt-get install -y nginx
+sudo update-rc.d nginx disable
+sudo cp "${HOST_RESOURCES_DIR}/${NGINX_RESOURCES_PATH}/nginx.conf" "/etc/nginx/"
+sudo cp "${HOST_RESOURCES_DIR}/${NGINX_RESOURCES_PATH}/dontWasteTime" "/etc/nginx/sites-available/"
+cd "/etc/nginx/sites-enabled"
+sudo rm *
+sudo ln -s "../sites-available/dontWasteTime" dontWasteTime
+
+echo "10. Set up supervisor"
 sudo apt-get install -y supervisor
 if [ ! -d $LOGS_DIR ]; then
     sudo mkdir $LOGS_DIR
