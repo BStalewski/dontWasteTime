@@ -111,8 +111,11 @@ cd $DJANGO_DIR
 ./manage.py collectstatic --noinput
 
 echo "9. Nginx installation and set up"
-sudo apt-get install -y nginx
-sudo update-rc.d nginx disable
+if ! hash nginx 2>/dev/null; then
+    sudo apt-get install -y nginx
+    sudo update-rc.d nginx disable
+    sudo nginx -s stop
+fi
 sudo cp "${HOST_RESOURCES_DIR}/${NGINX_RESOURCES_PATH}/nginx.conf" "/etc/nginx/"
 sudo cp "${HOST_RESOURCES_DIR}/${NGINX_RESOURCES_PATH}/dontWasteTime" "/etc/nginx/sites-available/"
 cd "/etc/nginx/sites-enabled"
