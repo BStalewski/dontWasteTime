@@ -117,7 +117,7 @@ if [ ! -d $LOGS_DIR ]; then
 fi
 sudo supervisorctl stop all
 cd "${SCRIPT_DIR}"
-sudo cp "${HOST_RESOURCES_DIR}/${SUPERVISOR_RESOURCES_PATH}/*" "${SUPERVISOR_CONF_DIR}/"
+sudo cp "${HOST_RESOURCES_DIR}/${SUPERVISOR_RESOURCES_PATH}"/* "${SUPERVISOR_CONF_DIR}/"
 sudo supervisorctl update
 sudo supervisorctl start all
 
