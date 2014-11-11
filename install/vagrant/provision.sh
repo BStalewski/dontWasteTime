@@ -3,10 +3,19 @@
 # Stop on the first error and unset variables are errors
 set -eu
 
-HOST_RESOURCES_DIR=/vagrant/resources
-PROJECTS_DIR=~/projects
-DJANGO_DIR=${PROJECTS_DIR}/dontWasteTime/webapp/crawler_app
-LOGS_DIR=/var/log/dontWasteTime
+if [ $# != 1 ]; then
+    echo "Wrong usage: use ./provision.sh vagrant|standalone"
+    exit 1
+fi
+
+MODE=$1
+case "$MODE" in
+    "vagrant") source /vagrant/vagrant_conf.sh;;
+    "standalone") source standalone_conf.sh;;
+    *) echo "Unkown mode ${MODE}. Use vagrant or standalone."; exit 1;;
+esac
+
+DJANGO_DIR="${PROJECTS_DIR}/${DJANGO_PATH}"
 
 
 echo "Start provisioning"
@@ -18,7 +27,6 @@ sudo apt-get install -y python-pip python-dev libffi-dev libssl-dev libxml2-dev 
 
 echo "2. PostgreSQL installation"
 sudo apt-get install -y postgresql postgresql-contrib pgadmin3 libpq-dev
-PSQL_ROOT=/etc/postgresql
 PSQL_VERSION=$(ls $PSQL_ROOT)
 PSQL_DIR=${PSQL_ROOT}/${PSQL_VERSION}/main
 sudo cp ${HOST_RESOURCES_DIR}/postgresql.conf $PSQL_DIR
@@ -63,9 +71,9 @@ sudo pip install virtualenv virtualenvwrapper
 
 # virtualenvwrapper uses unbound variables
 set +u
-cp ${HOST_RESOURCES_DIR}/bashrc /home/vagrant/.bashrc
+cp ${HOST_RESOURCES_DIR}/bashrc "`pwd`/.bashrc"
 source ~/.bashrc
-export WORKON_HOME=~/Envs
+export WORKON_HOME="${WORKON_HOME}"
 source /usr/local/bin/virtualenvwrapper.sh
 set -u
 
@@ -107,7 +115,6 @@ if [ ! -d $LOGS_DIR ]; then
     sudo mkdir $LOGS_DIR
 fi
 sudo supervisorctl stop all
-SUPERVISOR_CONF_DIR=/etc/supervisor/conf.d
 sudo cp $HOST_RESOURCES_DIR/supervisor/* $SUPERVISOR_CONF_DIR/
 sudo supervisorctl update
 sudo supervisorctl start all

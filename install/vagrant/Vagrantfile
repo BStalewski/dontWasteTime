@@ -14,5 +14,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell do |prov|
     prov.path = "provision.sh"
     prov.privileged = false
+    prov.args = "vagrant"
   end
 end
