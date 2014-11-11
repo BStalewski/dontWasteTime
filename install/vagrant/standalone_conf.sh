@@ -7,6 +7,6 @@ LOGS_DIR=/var/log/dontWasteTime
 PSQL_ROOT=/etc/postgresql
 WORKON_HOME=~/Envs
 STATIC_PATH="/var/dontWasteTime"
-SUPERVISOR_RESOURCES_PATH="supervisor/vagrant"
+SUPERVISOR_RESOURCES_PATH="supervisor/standalone"
 NGINX_RESOURCES_PATH="nginx"
 SUPERVISOR_CONF_DIR=/etc/supervisor/conf.d

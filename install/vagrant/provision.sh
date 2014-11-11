@@ -106,7 +106,7 @@ else
 fi
 
 echo "8. Set up webapp environment"
-sudo mkdir "${STATIC_PATH}"
+sudo mkdir -p "${STATIC_PATH}"
 sudo chown -R "${USER}:${USER}" "${STATIC_PATH}"
 cd $DJANGO_DIR
 ./manage.py migrate
@@ -118,6 +118,7 @@ if ! hash nginx 2>/dev/null; then
     sudo update-rc.d nginx disable
     sudo nginx -s stop
 fi
+cd "${SCRIPT_DIR}"
 sudo cp "${HOST_RESOURCES_DIR}/${NGINX_RESOURCES_PATH}/nginx.conf" "/etc/nginx/"
 sudo cp "${HOST_RESOURCES_DIR}/${NGINX_RESOURCES_PATH}/dontWasteTime" "/etc/nginx/sites-available/"
 cd "/etc/nginx/sites-enabled"
