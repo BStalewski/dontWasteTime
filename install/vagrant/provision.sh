@@ -15,6 +15,7 @@ case "$MODE" in
     *) echo "Unkown mode ${MODE}. Use vagrant or standalone."; exit 1;;
 esac
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DJANGO_DIR="${PROJECTS_DIR}/${DJANGO_PATH}"
 
 
@@ -115,7 +116,8 @@ if [ ! -d $LOGS_DIR ]; then
     sudo mkdir $LOGS_DIR
 fi
 sudo supervisorctl stop all
-sudo cp $HOST_RESOURCES_DIR/supervisor/* $SUPERVISOR_CONF_DIR/
+cd "${SCRIPT_DIR}"
+sudo cp "${HOST_RESOURCES_DIR}/${SUPERVISOR_RESOURCES_PATH}/*" "${SUPERVISOR_CONF_DIR}/"
 sudo supervisorctl update
 sudo supervisorctl start all
 
