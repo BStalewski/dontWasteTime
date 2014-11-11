@@ -5,7 +5,16 @@
 </head>
 
 <body>
-    <h2>Wyniki crawlingu</h2>
+    {% block header %}
+    <ul class="nav nav-pills" role="tablist">
+        <li role="presentation" class="active"><a href="/crawling/results">Wszystkie</a></li>
+        <li role="presentation"><a href="/crawling/new">Nowe</a></li>
+        <li role="presentation"><a href="/crawling/accepted">Zaakceptowane</a></li>
+        <li role="presentation"><a href="/crawling/ignored">Odrzucone</a></li>
+    </ul>
+
+    <h2>Wszystkie wyniki crawlingu</h2>
+    {% endblock %}
 
     <table class="table table-striped table-bordered table-hover">
 
@@ -15,15 +24,30 @@
             <th>Cena</th>
             <th>Czas zgłoszenia</th>
             <th>Link</th>
+            <th>Akcja</th>
         </tr>
 
     {% for result in object_list %}
-        <tr>
+        <tr id="result-{{ result.id }}">
             <td>{{ result.title }}</td>
             <td>{{ result.desc }}</td>
             <td>{{ result.price }}</td>
             <td>{{ result.time_posted|naturaltime }}</td>
             <td>{{ result.link }}</td>
+            <td>
+                <div class="btn-group-vertical">
+                    {% if result.is_acceptable %}
+                        <button id="button-accept-{{ result.id }}" type="button" class="btn btn-default" onclick="crawler.accept(event);">
+                            <span class="glyphicon glyphicon-star"></span> Akceptuj
+                        </button>
+                    {% endif %}
+                    {% if result.is_ignorable %}
+                        <button id="button-ignore-{{ result.id }}" type="button" class="btn btn-default" onclick="crawler.ignore(event);">
+                            <span class="glyphicon glyphicon-trash"></span> Odrzuć
+                        </button>
+                    {% endif %}
+                </div>
+            </td>
         </tr>
     {% endfor %}
 
@@ -31,4 +55,5 @@
 
     <script src="/static/js/jquery-1.11.1.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/crawlerresult_list.js"></script>
 </body>

@@ -1,0 +1,12 @@
+{% extends "crawling/crawlerresult_list.html" %}
+
+{% block header %}
+<ul class="nav nav-pills" role="tablist">
+    <li role="presentation"><a href="/crawling/results">Wszystkie</a></li>
+    <li role="presentation" class="active"><a href="/crawling/new">Nowe</a></li>
+    <li role="presentation"><a href="/crawling/accepted">Zaakceptowane</a></li>
+    <li role="presentation"><a href="/crawling/ignored">Odrzucone</a></li>
+</ul>
+
+<h2>Nowe wyniki crawlingu</h2>
+{% endblock %}
