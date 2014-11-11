@@ -106,6 +106,8 @@ else
 fi
 
 echo "8. Set up webapp environment"
+sudo mkdir "${STATIC_PATH}"
+sudo chown -R "${USER}:${USER}" "${STATIC_PATH}"
 cd $DJANGO_DIR
 ./manage.py migrate
 ./manage.py collectstatic --noinput

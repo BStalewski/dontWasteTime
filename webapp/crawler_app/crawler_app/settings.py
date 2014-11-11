@@ -8,6 +8,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+import os
+
 from datetime import timedelta
 from os.path import dirname, join
 
@@ -92,7 +94,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = join(BASE_DIR, 'static')
+STATIC_ROOT = join(os.sep, 'var', 'dontWasteTime', 'static')
 
 TEMPLATE_DIRS = (
     join(BASE_DIR, 'templates'),

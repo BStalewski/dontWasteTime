@@ -5,7 +5,7 @@ server {
     error_log /var/log/nginx-error.log;
  
     location /static/ {
-        alias   /var/dontWastTime/static/;
+        alias   /var/dontWasteTime/static/;
     }
     
     location / {
