@@ -7,22 +7,24 @@
 </head>
 
 <body>
-    <div class="pull-left">
-        {% block header %}
-        <ul class="nav nav-pills" role="tablist">
-            <li role="presentation" class="active"><a href="/crawling/results">Wszystkie</a></li>
-            <li role="presentation"><a href="/crawling/new">Nowe</a></li>
-            <li role="presentation"><a href="/crawling/accepted">Zaakceptowane</a></li>
-            <li role="presentation"><a href="/crawling/ignored">Odrzucone</a></li>
-        </ul>
+    <div style="overflow: hidden;">
+        <div class="pull-left">
+            {% block header %}
+            <ul class="nav nav-pills" role="tablist">
+                <li role="presentation" class="active"><a href="/crawling/results">Wszystkie</a></li>
+                <li role="presentation"><a href="/crawling/new">Nowe</a></li>
+                <li role="presentation"><a href="/crawling/accepted">Zaakceptowane</a></li>
+                <li role="presentation"><a href="/crawling/ignored">Odrzucone</a></li>
+            </ul>
 
-        <h2>Wszystkie wyniki crawlingu</h2>
-        {% endblock %}
+            <h2>Wszystkie wyniki crawlingu</h2>
+            {% endblock %}
+        </div>
+
+        <a href="{% url 'django.contrib.auth.views.logout_then_login' %}">
+            <button id="button-logout" type="button" class="btn btn-danger pull-right">Wyloguj</button>
+        </a>
     </div>
-
-    <a href="{% url 'django.contrib.auth.views.logout_then_login' %}">
-        <button id="button-logout" type="button" class="btn btn-danger pull-right">Wyloguj</button>
-    </a>
 
     <table class="table table-striped table-bordered table-hover">
 
@@ -43,7 +45,7 @@
             <td>{{ result.time_posted|naturaltime }}</td>
             <td>{{ result.link }}</td>
             <td>
-                <div class="btn-group-vertical">
+                <div class="btn-group">
                     {% if result.is_acceptable %}
                         <button id="button-accept-{{ result.id }}" type="button" class="btn btn-default" onclick="crawler.accept(event);">
                             <span class="glyphicon glyphicon-star"></span> Akceptuj
