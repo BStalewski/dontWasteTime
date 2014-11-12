@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 
-from crawler_app.settings import CRAWLERS
+from crawler_app.settings import CRAWLERS, LOGIN_URL
 from crawling.models import CrawlerResult
 from crawling.tasks import update_crawled_results, update_crawled_results_for
 
@@ -67,3 +67,7 @@ def update_status(id, status):
     crawling = CrawlerResult.objects.select_for_update().get(id=id)
     crawling.status = status
     crawling.save()
+
+
+def empty_url(request):
+    return HttpResponseRedirect(LOGIN_URL)
