@@ -69,7 +69,7 @@ class OtodomSpider(scrapy.Spider):
             now = datetime.datetime.now(timezone)
             self.date_limit = now - datetime.timedelta(hours=settings.DEFAULT_RESULT_HOURS_LIMIT)
 
-        print 'New crawling will start for items laster than %s' % self.date_limit
+        print '[OtodomSpider] New crawling will start for items older than %s' % self.date_limit
 
     def get_date_limit(self):
         return self.date_limit

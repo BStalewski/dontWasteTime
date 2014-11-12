@@ -53,7 +53,7 @@ class GumtreeSpider(scrapy.Spider):
             try:
                 link_text = items_page_link.xpath('text()').extract()[0]
             except IndexError:
-                print 'WARNING: missing text in items_page_link on page %s' % response.url
+                print '[GumtreeSpider] WARNING: missing text in items_page_link on page %s' % response.url
             else:
                 if link_text.startswith(u'Następne'):
                     url = items_page_link.xpath('@href').extract()[0]
@@ -68,7 +68,7 @@ class GumtreeSpider(scrapy.Spider):
             now = datetime.datetime.now(timezone)
             self.date_limit = now - datetime.timedelta(hours=settings.DEFAULT_RESULT_HOURS_LIMIT)
 
-        print 'New crawling will start for items laster than %s' % self.date_limit
+        print '[GumtreeSpider] New crawling will start for items older than %s' % self.date_limit
 
     def get_date_limit(self):
         return self.date_limit
