@@ -1,5 +1,7 @@
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.http import HttpResponse, Http404
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 
@@ -12,18 +14,22 @@ class CrawlerResultList(ListView):
     queryset = CrawlerResult.objects.all().order_by('-time_posted')
     template_name = 'crawling/crawlerresult_list.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CrawlerResultList, self).dispatch(*args, **kwargs)
 
-class CrawlerNewList(ListView):
+
+class CrawlerNewList(CrawlerResultList):
     queryset = CrawlerResult.objects.filter(status=CrawlerResult.NEW).order_by('-time_posted')
     template_name = 'crawling/crawler_new_list.html'
 
 
-class CrawlerAcceptedList(ListView):
+class CrawlerAcceptedList(CrawlerResultList):
     queryset = CrawlerResult.objects.filter(status=CrawlerResult.ACC).order_by('-time_posted')
     template_name = 'crawling/crawler_acc_list.html'
 
 
-class CrawlerIgnoredList(ListView):
+class CrawlerIgnoredList(CrawlerResultList):
     queryset = CrawlerResult.objects.filter(status=CrawlerResult.IGN).order_by('-time_posted')
     template_name = 'crawling/crawler_ign_list.html'
 

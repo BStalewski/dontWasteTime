@@ -31,6 +31,9 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/crawling/results'
+
 
 # Application definition
 
@@ -99,6 +102,7 @@ STATIC_ROOT = join(os.sep, 'var', 'dontWasteTime', 'static')
 TEMPLATE_DIRS = (
     join(BASE_DIR, 'templates'),
 )
+
 
 CRAWLERS = [
     'gumtree',
