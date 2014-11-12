@@ -72,8 +72,8 @@ sudo pip install virtualenv virtualenvwrapper
 
 # virtualenvwrapper uses unbound variables
 set +u
-cp ${HOST_RESOURCES_DIR}/bashrc "`pwd`/.bashrc"
-source ~/.bashrc
+cp ${HOST_RESOURCES_DIR}/bashrc "${HOME}/.bashrc"
+source "${HOME}/.bashrc"
 export WORKON_HOME="${WORKON_HOME}"
 source /usr/local/bin/virtualenvwrapper.sh
 set -u
